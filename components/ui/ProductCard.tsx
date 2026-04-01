@@ -39,9 +39,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     return str.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
   };
 
-  const formatPrice = (price: number): string => {
-    return `<span class='ruppee-symbol'>₹</span> ${Math.trunc(price)}`;
-  };
+  const formatPrice = (price: number): string => `₹${Math.trunc(price)}`;
 
   const handleCardClick = (e: React.MouseEvent) => {
     // Navigate to product page if the click didn't come from a button
@@ -99,11 +97,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </p>
 
           <div className="mt-2 text-lg font-black text-[#1a3320] flex items-center gap-2">
-            <p
-              dangerouslySetInnerHTML={{
-                __html: formatPrice(product.sellingPrice),
-              }}
-            />
+            <span className="ruppee-symbol">₹</span> {Math.trunc(product.sellingPrice)}
           </div>
 
           <div className="mt-auto pt-3">
