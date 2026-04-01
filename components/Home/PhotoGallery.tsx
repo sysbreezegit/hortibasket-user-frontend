@@ -119,7 +119,7 @@ const PhotoGallery = () => {
                         <MasonryPhotoAlbum
                             photos={GALLERY_IMAGES}
                             columns={(containerWidth) => {
-                                if (containerWidth < 640) return 1;
+                                if (containerWidth < 640) return 2;
                                 if (containerWidth < 1024) return 2;
                                 return 3;
                             }}
@@ -146,18 +146,18 @@ const PhotoGallery = () => {
                                             />
                                             
                                             {/* Hover Overlay */}
-                                            <div className="absolute inset-0 z-20 flex flex-col justify-end p-8 bg-gradient-to-t from-[#1a3320]/90 via-[#1a3320]/20 to-transparent opacity-0 translate-y-8 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                                                <div className="flex items-center justify-between">
+                                            <div className="absolute inset-0 z-20 flex flex-col justify-end p-4 md:p-8 bg-gradient-to-t from-[#1a3320]/90 via-[#1a3320]/20 to-transparent opacity-0 translate-y-4 md:translate-y-8 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                                                <div className="flex items-center justify-between gap-2">
                                                     <div className="flex flex-col">
-                                                        <span className="text-[10px] font-bold text-[#89C839] tracking-widest uppercase mb-2">
+                                                        <span className="text-[8px] md:text-[10px] font-bold text-[#89C839] tracking-widest uppercase mb-1 md:mb-2">
                                                             {customPhoto.category || 'Specimen'}
                                                         </span>
-                                                        <span className="text-xl md:text-2xl font-black text-white uppercase tracking-tighter">
+                                                        <span className="text-sm md:text-2xl font-black text-white uppercase tracking-tighter leading-tight drop-shadow-sm">
                                                             {customPhoto.title || customPhoto.alt}
                                                         </span>
                                                     </div>
-                                                    <div className="w-12 h-12 bg-white flex items-center justify-center text-[#1a3320] group-hover:rotate-45 transition-transform duration-500">
-                                                        <ArrowUpRight strokeWidth={2.5} />
+                                                    <div className="min-w-[32px] w-8 h-8 md:min-w-[48px] md:w-12 md:h-12 bg-white flex items-center justify-center text-[#1a3320] group-hover:rotate-45 transition-transform duration-500 shadow-lg">
+                                                        <ArrowUpRight strokeWidth={2.5} className="w-4 h-4 md:w-6 md:h-6" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -167,8 +167,8 @@ const PhotoGallery = () => {
                             }}
                         />
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {[1, 2, 3].map(i => (
+                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                            {[1, 2, 3, 4, 5, 6].map(i => (
                                 <div key={i} className="w-full aspect-[3/4] bg-gray-200 animate-pulse" />
                             ))}
                         </div>
