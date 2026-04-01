@@ -2,8 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import MaxWidthWrapper from "@/components/common/layout/MaxWidthWrapper";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Playfair_Display } from "next/font/google";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "700", "900"],
+});
 
 const HERO_SLIDES = [
   {
@@ -11,7 +17,7 @@ const HERO_SLIDES = [
     title: "Beautiful Plants for Every Corner",
     subtitle: "Discover a wide range of exotic and indoor plants that bring life to your home.",
     buttonText: "Shop Plants",
-    color: "bg-[#224229]",
+    tag: "Featured Collection",
     image: "https://images.unsplash.com/photo-1463936575829-25148e1db1b8?q=80&w=1320&h=585&auto=format&fit=crop"
   },
   {
@@ -19,7 +25,7 @@ const HERO_SLIDES = [
     title: "Quality Seeds for Your Garden",
     subtitle: "Start your gardening journey with our premium organic seeds.",
     buttonText: "Explore Seeds",
-    color: "bg-[#1a3320]",
+    tag: "Featured Collection",
     image: "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=1320&h=585&auto=format&fit=crop"
   },
   {
@@ -27,7 +33,7 @@ const HERO_SLIDES = [
     title: "Essential Tools for Success",
     subtitle: "Professional gardening tools to make your hobby easier and more enjoyable.",
     buttonText: "Browse Tools",
-    color: "bg-[#89C839]",
+    tag: "Featured Collection",
     image: "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=1320&h=585&auto=format&fit=crop"
   }
 ];
@@ -39,85 +45,107 @@ const Hero = () => {
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
 
   useEffect(() => {
-    const interval = setInterval(nextSlide, 5000);
+    const interval = setInterval(nextSlide, 6000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <section className="relative w-full overflow-hidden mt-6">
-      <MaxWidthWrapper className="max-w-none w-full px-2 md:px-8 lg:px-12 xl:px-16">
-        <div className="relative h-[450px] sm:h-[400px] md:h-[550px] lg:h-[650px] rounded-2xl md:rounded-[2.5rem] overflow-hidden shadow-2xl group">
-          {HERO_SLIDES.map((slide, index) => (
-            <div
-              key={slide.id}
-              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
-                }`}
-            >
-              <img
-                src={slide.image}
-                alt={slide.title}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#1a3320]/90 via-[#1a3320]/40 to-transparent flex items-center px-8 md:px-24">
-                <div className="max-w-2xl text-white space-y-6 md:space-y-8 mt-12 md:mt-0 pb-12 sm:pb-0">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={index === currentSlide ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                    transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                  >
-                    <span className="text-[#89C839] font-bold uppercase tracking-[0.25em] text-[10px] sm:text-xs block mb-3 sm:mb-4">
-                      Featured Collection
+    <section className="relative w-full bg-white pt-4 pb-12 overflow-hidden">
+      <MaxWidthWrapper className="max-w-[1440px] px-4 md:px-8 lg:px-12">
+        <div className="relative border border-gray-200 bg-[#faf9f6] flex flex-col md:flex-row min-h-[500px] md:h-[650px] overflow-hidden group">
+          
+          {/* Content Area */}
+          <div className="relative z-20 w-full md:w-1/2 flex flex-col justify-center p-8 md:p-16 lg:p-20 bg-[#faf9f6]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentSlide}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col"
+              >
+                <div className="inline-block bg-white border border-gray-200 text-[#89C839] px-4 py-1.5 font-black text-[10px] uppercase tracking-[0.25em] mb-4 sm:mb-6 md:mb-8 w-fit shadow-sm">
+                  {HERO_SLIDES[currentSlide].tag}
+                </div>
+                
+                <h1 className={`${playfair.className} text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-black text-[#1a3320] leading-[1.1] mb-4 sm:mb-6 tracking-tight italic`}>
+                  {HERO_SLIDES[currentSlide].title}
+                </h1>
+                
+                <p className="text-base sm:text-lg md:text-lg text-gray-600 font-medium max-w-sm leading-relaxed mb-8 md:mb-10">
+                  {HERO_SLIDES[currentSlide].subtitle}
+                </p>
+                
+                <div className="flex flex-wrap gap-4 mb-24 md:mb-0">
+                  <button className="group relative bg-[#1a3320] text-white px-8 md:px-10 py-3.5 md:py-4 font-black text-xs uppercase tracking-[0.2em] overflow-hidden transition-all hover:bg-white hover:text-[#1a3320] border border-[#1a3320] shadow-sm">
+                    <span className="relative z-10 flex items-center gap-2">
+                      {HERO_SLIDES[currentSlide].buttonText}
+                      <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                     </span>
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight drop-shadow-lg">
-                      {slide.title}
-                    </h1>
-                  </motion.div>
-                  <motion.p 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={index === currentSlide ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                    transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                    className="text-base md:text-xl text-gray-200 font-medium max-w-lg leading-relaxed drop-shadow-md"
+                  </button>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Guaranteed Readability Navigation (Placed on off-white background) */}
+            <div className="absolute bottom-6 md:bottom-12 left-0 right-0 px-8 md:px-16 lg:px-20 z-30 flex items-center justify-between pointer-events-none">
+              
+              {/* Fractional Pagination & Ghost Arrows Group (Inside content area) */}
+              <div className="flex items-center gap-6 md:gap-10 pointer-events-auto select-none bg-inherit ml-auto md:ml-0 translate-y-2 md:translate-y-0">
+                <div className="flex items-center gap-4 md:gap-8 group/nav">
+                  <button 
+                    onClick={prevSlide}
+                    className="text-[#1a3320] hover:text-[#89C839] transition-all transform hover:-translate-x-1 duration-300"
+                    aria-label="Previous slide"
                   >
-                    {slide.subtitle}
-                  </motion.p>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={index === currentSlide ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                    transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    <ChevronLeft size={24} strokeWidth={1.5} />
+                  </button>
+                  
+                  <div className="flex items-center gap-2 md:gap-3">
+                    <span className="text-xl md:text-2xl font-black text-[#1a3320] tracking-tighter">
+                      0{currentSlide + 1}
+                    </span>
+                    <div className="w-4 md:w-8 h-[1px] bg-gray-300 transform rotate-[-45deg] opacity-50" />
+                    <span className="text-[9px] md:text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1 md:mt-3">
+                      0{HERO_SLIDES.length}
+                    </span>
+                  </div>
+
+                  <button 
+                    onClick={nextSlide}
+                    className="text-[#1a3320] hover:text-[#89C839] transition-all transform hover:translate-x-1 duration-300"
+                    aria-label="Next slide"
                   >
-                    <button className="bg-[#89C839] hover:bg-white text-[#1a3320] font-black py-4 px-10 rounded-full transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1 tracking-wider text-sm">
-                      {slide.buttonText}
-                    </button>
-                  </motion.div>
+                    <ChevronRight size={24} strokeWidth={1.5} />
+                  </button>
                 </div>
               </div>
             </div>
-          ))}
+          </div>
 
-          {/* Controls */}
-          <button
-            onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 sm:p-4 rounded-full bg-white/10 hover:bg-[#89C839] text-white hover:text-[#1a3320] backdrop-blur-md border border-white/20 hover:border-transparent transition-all duration-300 opacity-0 group-hover:opacity-100 hidden sm:block"
-          >
-            <ChevronLeft size={24} className="stroke-[2.5]" />
-          </button>
-          <button
-            onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 sm:p-4 rounded-full bg-white/10 hover:bg-[#89C839] text-white hover:text-[#1a3320] backdrop-blur-md border border-white/20 hover:border-transparent transition-all duration-300 opacity-0 group-hover:opacity-100 hidden sm:block"
-          >
-            <ChevronRight size={24} className="stroke-[2.5]" />
-          </button>
-
-          {/* Indicators */}
-          <div className="absolute bottom-6 left-8 md:left-24 lg:left-24 z-20 flex gap-3">
-            {HERO_SLIDES.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={`h-1.5 rounded-full transition-all duration-500 overflow-hidden ${index === currentSlide ? "bg-[#89C839] w-12" : "bg-white/30 hover:bg-white/50 w-6"
-                  }`}
-              />
-            ))}
+          {/* Image Area */}
+          <div className="relative w-full md:w-1/2 h-[350px] md:h-full overflow-hidden bg-gray-100 border-l border-gray-200">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentSlide}
+                initial={{ opacity: 0, scale: 1.1 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.05 }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                className="absolute inset-0"
+              >
+                <img
+                  src={HERO_SLIDES[currentSlide].image}
+                  alt={HERO_SLIDES[currentSlide].title}
+                  className="w-full h-full object-cover grayscale-[0.05] group-hover:grayscale-0 transition-all duration-1000"
+                />
+              </motion.div>
+            </AnimatePresence>
+            
+            {/* Visual Decoration Overlay */}
+            <div className="absolute inset-0 pointer-events-none border-[20px] border-[#faf9f6]/20" />
+            <div className="absolute top-12 right-12 z-10 w-32 h-32 border border-white/40 backdrop-blur-[2px] hidden lg:block" />
           </div>
         </div>
       </MaxWidthWrapper>
