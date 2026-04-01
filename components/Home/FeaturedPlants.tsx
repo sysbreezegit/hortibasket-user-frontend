@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import MaxWidthWrapper from "@/components/common/layout/MaxWidthWrapper";
-import ProductCard from "@/components/ui/ProductCard";
+import FeaturedProductCard from "@/components/ui/FeaturedProductCard";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
@@ -127,30 +127,35 @@ const FeaturedPlants: React.FC<FeaturedPlantsProps> = ({
     <MaxWidthWrapper className="max-w-none w-full px-2 md:px-8 lg:px-12 xl:px-16">
       <section className="w-full mb-12">
         {/* Header */}
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="font-sans font-black text-[24px] sm:text-[28px] md:text-[32px] lg:text-[42px] text-[#224229]">
-            {title}
-          </h2>
+        <div className="flex items-end justify-between mb-8 pb-4">
+          <div>
+            <div className="inline-block bg-[#faf9f6] text-[#89C839] px-3 py-1 font-black text-[10px] uppercase tracking-[0.2em] mb-4 border border-gray-200">
+              Signature Selection
+            </div>
+            <h2 className="font-black text-4xl sm:text-6xl text-[#1a3320] uppercase tracking-tighter leading-none">
+              {title}
+            </h2>
+          </div>
           <Link
             href={`/${url}`}
-            className="md:hidden font-sans font-bold text-[16px] text-[#224229]"
+            className="md:hidden font-black text-xs uppercase tracking-widest text-[#1a3320] border border-gray-200 px-4 py-2 hover:border-[#1a3320] transition-colors"
           >
             View all
           </Link>
-          <div className="hidden md:flex gap-2">
+          <div className="hidden md:flex gap-3">
             <button
               onClick={() => scroll("left")}
-              className="p-3 rounded-full border-2 border-gray-100 hover:border-[#89C839] hover:bg-gray-50 transition-all duration-200 group"
+              className="w-12 h-12 flex items-center justify-center bg-white border border-gray-200 hover:border-[#1a3320] hover:bg-[#1a3320] transition-all group shadow-sm"
               aria-label="Scroll left"
             >
-              <ArrowLeft size={24} className="group-hover:text-[#89C839] transition-colors" />
+              <ArrowLeft size={20} className="text-[#1a3320] group-hover:text-white stroke-[2]" />
             </button>
             <button
               onClick={() => scroll("right")}
-              className="p-3 rounded-full border-2 border-gray-100 hover:border-[#89C839] hover:bg-gray-50 transition-all duration-200 group"
+              className="w-12 h-12 flex items-center justify-center bg-white border border-gray-200 hover:border-[#1a3320] hover:bg-[#1a3320] transition-all group shadow-sm"
               aria-label="Scroll right"
             >
-              <ArrowRight size={24} className="group-hover:text-[#89C839] transition-colors" />
+              <ArrowRight size={20} className="text-[#1a3320] group-hover:text-white stroke-[2]" />
             </button>
           </div>
         </div>
@@ -166,22 +171,22 @@ const FeaturedPlants: React.FC<FeaturedPlantsProps> = ({
         >
           {PRODUCTS.map((product, i) => (
             <motion.div key={`${product._id}-${i}`} className="snap-start shrink-0" variants={itemVariants} style={{ willChange: "transform, opacity" }}>
-              <ProductCard product={product} />
+              <FeaturedProductCard product={product} />
             </motion.div>
           ))}
 
           {/* View All Button at the end of carousel */}
           <motion.div variants={itemVariants} className="snap-start shrink-0" style={{ willChange: "transform, opacity" }}>
             <Link
-              href={`/${url}`}
-              className="min-w-[318px] h-[464px] flex flex-col items-center justify-center group p-8 border-2 border-dashed border-gray-100 hover:border-[#89C839] rounded-2xl transition-all duration-200 bg-gray-50/50"
-            >
-              <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center shadow-sm group-hover:shadow-md group-hover:scale-110 transition-all mb-4">
-                <ArrowRight size={32} className="text-gray-400 group-hover:text-[#89C839] transition-colors" />
-              </div>
-              <span className="font-sans font-black text-xl text-gray-600 group-hover:text-[#89C839] transition-colors">
-                View All
-              </span>
+               href={`/${url}`}
+               className="min-w-[318px] h-[464px] flex flex-col items-center justify-center group p-4 bg-[#faf9f6]/80 backdrop-blur-sm border border-dashed border-gray-300 hover:border-[#1a3320] hover:bg-white hover:-translate-y-1 transition-all duration-300"
+             >
+               <div className="w-16 h-16 bg-white border border-gray-200 shadow-sm flex items-center justify-center group-hover:bg-[#1a3320] transition-colors mb-4">
+                 <ArrowRight size={24} className="text-[#1a3320] group-hover:text-white stroke-[2]" />
+               </div>
+               <span className="font-bold text-sm uppercase tracking-[0.2em] text-gray-500 group-hover:text-[#1a3320]">
+                 View All Items
+               </span>
             </Link>
           </motion.div>
         </motion.div>
@@ -196,7 +201,7 @@ const FeaturedPlants: React.FC<FeaturedPlantsProps> = ({
         >
           {PRODUCTS.slice(0, 4).map((product, i) => (
             <motion.div key={`${product._id}-${i}`} variants={itemVariants} style={{ willChange: "transform, opacity" }}>
-              <ProductCard product={product} />
+              <FeaturedProductCard product={product} />
             </motion.div>
           ))}
         </motion.div>

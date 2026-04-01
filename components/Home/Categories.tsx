@@ -76,15 +76,17 @@ const itemVariants: Variants = {
 
 const Categories = () => {
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-white border-b border-gray-200">
       <MaxWidthWrapper className="max-w-none w-full px-2 md:px-8 lg:px-12 xl:px-16">
-        <div className="flex flex-row justify-between items-center mb-12 px-2 sm:px-0">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 px-2 sm:px-0 gap-6">
           <div>
-            <span className="text-[#89C839] font-black uppercase tracking-[0.3em] text-[10px] sm:text-xs block mb-2">Our Collections</span>
-            <h2 className="text-2xl sm:text-4xl font-black text-[#224229] tracking-tighter">Shop by Category</h2>
+            <div className="w-16 h-1 bg-[#89C839] mb-4" />
+            <h2 className="text-3xl sm:text-5xl font-black text-[#224229] tracking-tight uppercase">
+              Shop Categories
+            </h2>
           </div>
-          <Link href="/categories" className="flex items-center gap-2 text-[#224229] bg-gray-100/80 px-4 py-2 sm:px-6 sm:py-3 rounded-full text-xs sm:text-sm font-black hover:bg-[#89C839] hover:text-[#224229] transition-all">
-            See All <ArrowRight size={16} />
+          <Link href="/categories" className="flex items-center gap-2 text-[#224229] bg-white border-2 border-[#224229] px-6 py-3 text-xs sm:text-sm font-black hover:bg-[#224229] hover:text-white transition-all uppercase tracking-widest">
+            View All <ArrowRight size={16} />
           </Link>
         </div>
 
@@ -97,33 +99,31 @@ const Categories = () => {
         >
           {CATEGORIES.map((category) => (
             <motion.div key={category.id} variants={itemVariants} style={{ willChange: "transform, opacity" }}>
-              <Link href={`/category/${category.id}`} className="group relative block aspect-4/5 sm:aspect-3/4 rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
-                {/* Background Image */}
-                <div className="absolute inset-0 z-0">
+              <Link href={`/category/${category.id}`} className="group relative flex aspect-4/5 sm:aspect-3/4 bg-white border border-gray-200 hover:border-[#224229] transition-colors p-3 sm:p-4 flex-col justify-between">
+                
+                {/* Image Container representing a box */}
+                <div className="w-full h-[65%] sm:h-[70%] bg-gray-100 relative overflow-hidden border border-gray-100">
                   <img
                     src={category.image}
                     alt={category.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out grayscale-20 group-hover:grayscale-0"
                   />
-                  {/* Subtle Gradient Overlay */}
-                  <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/10 to-black/80 z-10" />
-                </div>
-
-                {/* Top Badge */}
-                <div className="absolute top-4 right-4 z-20">
-                  <div className="bg-black/40 backdrop-blur-md border border-white/10 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
-                    {category.count}
+                  {/* Top Badge as a block */}
+                  <div className="absolute top-0 left-0 bg-white border-b border-r border-gray-200 px-3 py-1.5 z-20">
+                    <span className="text-[10px] font-bold text-[#224229] tracking-widest uppercase">
+                      {category.count}
+                    </span>
                   </div>
                 </div>
 
-                {/* Bottom Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 z-20 transform transition-transform duration-500 group-hover:-translate-y-1">
-                  <div className={`w-8 h-1 ${category.accent} mb-3 transition-all duration-500 group-hover:w-16`} />
-                  <h3 className="text-lg sm:text-2xl font-black text-white tracking-tighter leading-none mb-1">
+                {/* Bottom Content block */}
+                <div className="flex flex-col justify-end grow pt-4">
+                  <div className={`w-8 h-1 ${category.accent} mb-3`} />
+                  <h3 className="text-lg sm:text-xl font-black text-[#224229] tracking-tight uppercase leading-none mb-2">
                     {category.name}
                   </h3>
-                  <div className="flex items-center gap-2 text-white/60 text-[10px] sm:text-xs font-bold opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                    Explore Now <ArrowRight size={12} />
+                  <div className="flex items-center gap-2 text-[#224229]/60 text-[10px] font-bold uppercase tracking-widest group-hover:text-[#89C839] transition-colors">
+                    Explore <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
               </Link>

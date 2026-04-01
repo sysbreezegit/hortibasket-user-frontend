@@ -10,11 +10,11 @@ import StaggeredMenu from "./StaggeredMenu";
 // ─── Nav links ────────────────────────────────────────────────────────────────
 
 const NAV_LINKS = [
-  { name: "Plants", href: "/plants" },
-  { name: "Seeds", href: "/seeds" },
-  { name: "Pots & Planters", href: "/pots" },
-  { name: "Tools", href: "/tools" },
-  { name: "Fertilizers", href: "/fertilizers" },
+  { name: "Shop", href: "/shop" },
+  { name: "Orders", href: "/orders" },
+  { name: "Profile", href: "/profile" },
+  { name: "Checkout", href: "/checkout" },
+  { name: "Login", href: "/login" },
 ];
 
 // StaggeredMenu expects { label, ariaLabel?, link }
@@ -125,7 +125,7 @@ const Header = () => {
               >
                 <ShoppingCart size={20} />
                 <span className="absolute top-1 right-1 bg-[#224229] text-white text-[8px] w-3.5 h-3.5 rounded-full flex items-center justify-center font-bold">
-                  0
+                  2
                 </span>
               </Link>
 

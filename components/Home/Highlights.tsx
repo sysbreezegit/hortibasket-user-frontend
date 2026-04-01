@@ -1,11 +1,11 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, ShoppingCart, X, Volume2, VolumeX } from "lucide-react";
-import React, { useState, useEffect, useRef } from "react";
+import { ArrowLeft, ArrowRight, ShoppingCart, X, Volume2, VolumeX, ArrowUpRight } from "lucide-react";
+import React, { useState, useEffect } from "react";
 import MaxWidthWrapper from "@/components/common/layout/MaxWidthWrapper";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const HIGHLIGHTS_DATA = [
   {
@@ -117,138 +117,131 @@ const Highlights = () => {
   const isCarousel = HIGHLIGHTS_DATA.length > itemsPerView;
 
   return (
-    <MaxWidthWrapper className="max-w-none w-full px-2 md:px-8 lg:px-12 xl:px-16">
-      <div className="py-10">
-        <section className="w-full">
-          <div className="flex justify-between items-center mb-5">
-            <h2 className="font-sans font-black text-[24px] sm:text-[28px] md:text-[32px] lg:text-[42px] text-[#224229]">
-              Hortibasket Highlights
+    <div className="bg-white text-black font-sans py-20 pb-32 border-b border-gray-200">
+      <MaxWidthWrapper className="max-w-[1400px] w-full px-4 md:px-8">
+        
+        {/* HEADER */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
+          <div className="flex flex-col gap-2">
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#89C839] border-b-2 border-black pb-2 self-start">
+              Motion Logistics
+            </span>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5rem] font-black uppercase tracking-tighter leading-[0.9] text-black">
+              Specimen<br/>Shorts
             </h2>
-
-            {isCarousel && (
-              <div className="hidden md:flex items-center gap-2">
-                <button
-                  className="bg-white hover:bg-gray-200 border p-2 rounded transition-colors"
-                  onClick={prevSlide}
-                  aria-label="Previous slide"
-                >
-                  <ArrowLeft />
-                </button>
-                <button
-                  className="bg-white hover:bg-gray-200 border p-2 rounded transition-colors"
-                  onClick={nextSlide}
-                  aria-label="Next slide"
-                >
-                  <ArrowRight />
-                </button>
-              </div>
-            )}
           </div>
 
-          <div className="relative overflow-hidden w-full">
-            <motion.div
-              className="flex"
-              animate={{ x: `-${currentSlide * (100 / itemsPerView)}%` }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              style={{ willChange: "transform" }}
-            >
-              {HIGHLIGHTS_DATA.map((highlight, i) => (
-                <div key={i} className="shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-2">
-                  <div className="cursor-pointer" onClick={(e) => handleCardClick(e, highlight)}>
-                    <div className="w-full h-[380px] xs:h-[450px] sm:h-[320px] md:h-[340px] lg:h-[550px] rounded-lg shadow-md overflow-hidden relative group">
-                      <video
-                        src={highlight.video}
-                        className="absolute inset-0 w-full h-full object-cover z-0"
-                        autoPlay
-                        loop
-                        muted={isListMuted}
-                        playsInline
-                        preload="metadata"
-                      />
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setIsListMuted((m) => !m);
-                        }}
-                        aria-label={isListMuted ? "Unmute video" : "Mute video"}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/90 hover:bg-white transition-colors p-2 shadow md:hidden"
-                      >
-                        {isListMuted ? (
-                          <VolumeX className="w-5 h-5 text-gray-900" />
-                        ) : (
-                          <Volume2 className="w-5 h-5 text-gray-900" />
-                        )}
-                      </button>
+          {isCarousel && (
+            <div className="hidden md:flex items-center gap-4">
+              <button
+                className="w-14 h-14 border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors"
+                onClick={prevSlide}
+                aria-label="Previous slide"
+              >
+                <ArrowLeft strokeWidth={2.5} />
+              </button>
+              <button
+                className="w-14 h-14 border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"
+                onClick={nextSlide}
+                aria-label="Next slide"
+              >
+                <ArrowRight strokeWidth={2.5} />
+              </button>
+            </div>
+          )}
+        </div>
 
-                      <div className="absolute bottom-2 left-2 right-2 md:bottom-4 md:left-4 md:right-4 backdrop-blur-md p-3 md:p-4 rounded-lg shadow-md z-10 bg-white/80 group-hover:bg-white/90 transition-colors">
-                        <h3 className="text-sm md:text-base lg:text-lg font-semibold text-gray-800 mb-1 md:mb-2 line-clamp-1">
-                          {highlight.product.productName}
-                        </h3>
-                        <div className="flex justify-between items-center">
-                          <p className="text-lg md:text-xl lg:text-2xl font-semibold text-gray-800">
-                            Rs.{highlight.product.sellingPrice}
-                            <span className="text-sm text-gray-500 line-through ml-2">
-                              Rs.{highlight.product.mrpPrice}
-                            </span>
-                          </p>
-                          <button
-                            className=" bg-[#8dd62d] hover:bg-[#89C839]/80 text-white w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 flex items-center justify-center rounded-lg transition-colors"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              alert("Added to cart!");
-                            }}
-                            aria-label="Add to cart"
-                          >
-                            <ShoppingCart className="w-4 h-4 md:w-5 md:h-5" />
-                          </button>
-                        </div>
+        {/* CAROUSEL TRACK */}
+        <div className="relative overflow-hidden w-full">
+          <motion.div
+            className="flex gap-4 md:gap-6 lg:gap-8"
+            animate={{ x: `calc(-${currentSlide * (100 / itemsPerView)}% - ${currentSlide > 0 ? (currentSlide * 1.5) : 0}rem)` }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            style={{ willChange: "transform" }}
+          >
+            {HIGHLIGHTS_DATA.map((highlight, i) => (
+              <div key={i} className="shrink-0 w-full sm:w-[calc(50%-0.5rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.5rem)]">
+                
+                <div 
+                  className="w-full aspect-[9/16] bg-black border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden relative group cursor-pointer hover:translate-y-[-4px] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-300"
+                  onClick={(e) => handleCardClick(e, highlight)}
+                >
+                  <video
+                    src={highlight.video}
+                    className="absolute inset-0 w-full h-full object-cover z-0 opacity-80 group-hover:opacity-100 transition-opacity"
+                    autoPlay
+                    loop
+                    muted={isListMuted}
+                    playsInline
+                    preload="metadata"
+                  />
+                  
+                  {/* Dynamic Play / Mute Toggle */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsListMuted((m) => !m);
+                    }}
+                    className="absolute top-4 right-4 z-20 w-10 h-10 border-2 border-white bg-black/50 backdrop-blur text-white flex items-center justify-center hover:bg-white hover:text-black transition-colors"
+                  >
+                    {isListMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+                  </button>
+
+                  <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black via-black/80 to-transparent z-10 translate-y-6 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                    <span className="text-[10px] font-bold text-[#89C839] tracking-widest uppercase mb-1 block">Live Feed</span>
+                    <h3 className="text-white text-lg font-black uppercase tracking-tight mb-2 truncate">
+                      {highlight.product.productName}
+                    </h3>
+                    <div className="flex items-center justify-between">
+                      <span className="text-white font-bold tracking-widest">
+                        ₹{highlight.product.sellingPrice}
+                      </span>
+                      <div className="w-8 h-8 bg-white text-black flex items-center justify-center">
+                        <ArrowUpRight size={16} strokeWidth={3} />
                       </div>
                     </div>
                   </div>
                 </div>
-              ))}
-            </motion.div>
 
-            {totalSlides > 1 && (
-              <div className="flex justify-center mt-4 space-x-2">
-                {Array.from({ length: totalSlides }).map((_, index) => (
-                  <button
-                    key={index}
-                    className={`w-2 h-2 rounded-full ${currentSlide === index ? "bg-blue-500" : "bg-gray-300"}`}
-                    onClick={() => setCurrentSlide(index)}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
               </div>
-            )}
-          </div>
-        </section>
-      </div>
+            ))}
+          </motion.div>
+        </div>
 
-      {/* Modal for Highlight Details - Near-exact clone of Caremall Highlights.tsx modal */}
-      {isModalOpen && (
-        <div role="dialog" aria-modal="true" className="fixed inset-0 z-100">
-          {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/70" onClick={closeModal} />
-          {/* Content wrapper */}
-          <div className="relative h-full w-full">
-            {/* Close button */}
-            <button
-              onClick={closeModal}
-              aria-label="Close modal"
-              className="absolute top-3 right-3 z-50 rounded-full bg-white text-black hover:bg-gray-100 transition-colors p-2 shadow-md"
+      </MaxWidthWrapper>
+
+      {/* MODAL - BRUTALIST REWORK */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <div role="dialog" aria-modal="true" className="fixed inset-0 z-[150] flex items-center justify-center p-4">
+            
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              exit={{ opacity: 0 }} 
+              className="absolute inset-0 bg-[#F5F5F0]/90 backdrop-blur-sm" 
+              onClick={closeModal} 
+            />
+            
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-5xl h-[85vh] bg-white border-2 border-black flex flex-col md:flex-row shadow-[16px_16px_0px_0px_rgba(0,0,0,1)]"
             >
-              <X className="w-5 h-5" />
-            </button>
+              
+              <button
+                onClick={closeModal}
+                className="absolute -top-4 -right-4 md:-top-6 md:-right-6 z-50 w-12 h-12 bg-[#89C839] border-2 border-black text-black flex items-center justify-center hover:bg-black hover:text-white transition-colors"
+              >
+                <X size={24} strokeWidth={3} />
+              </button>
 
-            {/* Main content */}
-            <div className="absolute inset-0 bg-black/90" />
-            <div className="relative h-full w-full grid md:grid-cols-[minmax(0,1fr)_420px]">
-              {/* Media area */}
-              <div className="relative flex items-center justify-center overflow-hidden bg-black">
+              {/* MEDIA LEFT */}
+              <div className="relative w-full md:w-3/5 h-[40vh] md:h-full bg-black border-b-2 md:border-b-0 md:border-r-2 border-black overflow-hidden flex items-center justify-center">
                 <video
                   src={selectedHighlight.video}
-                  className="h-full w-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover"
                   autoPlay
                   loop
                   muted={isModalMuted}
@@ -256,99 +249,73 @@ const Highlights = () => {
                 />
                 <button
                   onClick={() => setIsModalMuted((m) => !m)}
-                  aria-label={isModalMuted ? "Unmute video" : "Mute video"}
-                  className="absolute right-5 top-1/2 -translate-y-1/2 z-20 rounded-full bg-white/90 hover:bg-white transition-colors p-3 shadow"
+                  className="absolute top-6 right-6 z-20 w-12 h-12 border-2 border-white bg-black/40 backdrop-blur-md text-white flex items-center justify-center hover:bg-white hover:text-black transition-colors"
                 >
-                  {isModalMuted ? (
-                    <VolumeX className="w-6 h-6 text-gray-900" />
-                  ) : (
-                    <Volume2 className="w-6 h-6 text-gray-900" />
-                  )}
+                  {isModalMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
                 </button>
               </div>
 
-              {/* Right product panel (desktop) */}
-              <aside className="hidden md:flex flex-col h-full bg-white p-6 gap-6">
-                <div className="flex flex-col gap-4">
+              {/* INFO RIGHT */}
+              <div className="w-full md:w-2/5 h-full bg-[#fdfcfb] p-8 md:p-12 flex flex-col justify-between overflow-y-auto">
+                <div className="flex flex-col gap-8">
+                  
                   {selectedHighlight.product.productImages?.[0] && (
-                    <img
-                      src={selectedHighlight.product.productImages[0]}
-                      alt={selectedHighlight.product.productName}
-                      className="w-full max-w-[260px] aspect-square object-contain rounded-md border border-gray-200"
-                    />
+                    <div className="w-full aspect-square bg-[#F5F5F0] border-2 border-black p-4">
+                      <img
+                        src={selectedHighlight.product.productImages[0]}
+                        alt={selectedHighlight.product.productName}
+                        className="w-full h-full object-cover mix-blend-multiply"
+                      />
+                    </div>
                   )}
-                  <h3 className="text-xl font-semibold text-gray-900">{selectedHighlight.product.productName}</h3>
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl font-bold text-gray-900">
-                      Rs.{selectedHighlight.product.sellingPrice}
+
+                  <div className="flex flex-col gap-2">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#89C839] border-b-2 border-black pb-1 self-start">
+                      Current Selection
                     </span>
-                    <div className="space-y-2">
+                    <h3 className="text-3xl lg:text-4xl font-black uppercase tracking-tighter leading-[0.9] text-black pt-2">
+                      {selectedHighlight.product.productName}
+                    </h3>
+                  </div>
+
+                  <div className="flex flex-col gap-1">
+                    <div className="flex items-end gap-3">
+                      <span className="text-3xl font-black tracking-tighter">
+                        ₹{selectedHighlight.product.sellingPrice}
+                      </span>
                       {selectedHighlight.product.mrpPrice && (
-                        <span className="text-gray-500 line-through">Rs.{selectedHighlight.product.mrpPrice}</span>
+                        <span className="text-lg text-gray-400 line-through font-bold mb-1">
+                          ₹{selectedHighlight.product.mrpPrice}
+                        </span>
                       )}
                     </div>
                     {getDiscountPct(selectedHighlight.product.mrpPrice, selectedHighlight.product.sellingPrice) !== null && (
-                      <span className="text-green-600 font-medium">
-                        {getDiscountPct(selectedHighlight.product.mrpPrice, selectedHighlight.product.sellingPrice)}% OFF
+                      <span className="text-xs font-bold uppercase tracking-widest text-black bg-[#89C839] px-2 py-1 self-start mt-2">
+                        {getDiscountPct(selectedHighlight.product.mrpPrice, selectedHighlight.product.sellingPrice)}% Logic Discount
                       </span>
                     )}
                   </div>
                 </div>
-                <div className="mt-auto flex flex-col gap-3">
-                  <Link
-                    href={`/products/${selectedHighlight.product.urlSlug}`}
-                    onClick={closeModal}
-                    className="w-full inline-flex items-center justify-center rounded-md bg-[#8dd62d] text-white px-5 py-3 text-sm font-semibold hover:bg-gray-900 transition-colors"
-                  >
-                    SHOP NOW
-                  </Link>
-                </div>
-              </aside>
-            </div>
 
-            {/* Mobile bottom sheet (inside overlay) */}
-            <div className="md:hidden pointer-events-none fixed bottom-0 left-0 right-0">
-              <div className="pointer-events-auto mx-3 mb-3 rounded-xl bg-white shadow-2xl p-3 flex items-center gap-3">
-                {selectedHighlight.product.productImages?.[0] && (
-                  <img
-                    src={selectedHighlight.product.productImages[0]}
-                    alt={selectedHighlight.product.productName}
-                    className="size-14 rounded-md object-contain border border-gray-200"
-                  />
-                )}
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold text-gray-900 line-clamp-1">
-                    {selectedHighlight.product.productName}
-                  </p>
-                  <div className="mt-1 flex items-center gap-2">
-                    <span className="text-base font-bold text-gray-900">
-                      Rs.{selectedHighlight.product.sellingPrice}
-                    </span>
-                    {selectedHighlight.product.mrpPrice && (
-                      <span className="text-xs text-gray-500 line-through">
-                        Rs.{selectedHighlight.product.mrpPrice}
-                      </span>
-                    )}
-                    {getDiscountPct(selectedHighlight.product.mrpPrice, selectedHighlight.product.sellingPrice) !== null && (
-                      <span className="text-xs text-green-600 font-medium">
-                        {getDiscountPct(selectedHighlight.product.mrpPrice, selectedHighlight.product.sellingPrice)}% OFF
-                      </span>
-                    )}
-                  </div>
+                <div className="mt-12 flex flex-col gap-4">
+                  <Link
+                    href={`/product/${selectedHighlight.product._id}`}
+                    onClick={closeModal}
+                    className="w-full h-16 bg-black text-white font-black uppercase tracking-widest flex items-center justify-center gap-3 border-2 border-black hover:bg-[#89C839] hover:text-black transition-colors"
+                  >
+                    Acquire Index <ArrowRight size={18} />
+                  </Link>
+                  <button onClick={closeModal} className="text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-black">
+                    Return to Timeline
+                  </button>
                 </div>
-                <Link
-                  href={`/products/${selectedHighlight.product.urlSlug}`}
-                  onClick={closeModal}
-                  className="rounded-md bg-[#8dd62d] text-white px-4 py-2 text-xs font-semibold hover:bg-gray-900 transition-colors whitespace-nowrap"
-                >
-                  SHOP NOW
-                </Link>
               </div>
-            </div>
+
+            </motion.div>
           </div>
-        </div>
-      )}
-    </MaxWidthWrapper>
+        )}
+      </AnimatePresence>
+    </div>
   );
 };
 
