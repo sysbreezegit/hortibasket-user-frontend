@@ -183,14 +183,14 @@ export default function ProductDetailPage() {
               </div>
 
               {/* TOGGLABLE WISHLIST BUTTON */}
-              <button 
+              <button
                 onClick={() => setIsFavorite(!isFavorite)}
                 className={cn(
                   "w-full flex items-center justify-center gap-2 h-14 border-2 border-black font-bold text-xs tracking-widest uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-colors active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]",
                   isFavorite ? "bg-[#89C839] text-black" : "bg-white text-black hover:bg-[#F5F5F0]"
                 )}
               >
-                <Heart size={16} strokeWidth={2.5} className={cn(isFavorite && "fill-black")} /> 
+                <Heart size={16} strokeWidth={2.5} className={cn(isFavorite && "fill-black")} />
                 {isFavorite ? "Saved to Targets" : "Save to Targets"}
               </button>
 
@@ -235,9 +235,9 @@ export default function ProductDetailPage() {
             )}>
               <div className="w-full aspect-[4/5] bg-gray-100 border-b-2 border-black overflow-hidden relative">
                 <img src={prod.image} alt={prod.productName} className="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-90 group-hover:scale-105 transition-transform duration-500 ease-out" />
-                
+
                 {/* Embedded Heart Button inside Similar Products */}
-                <button 
+                <button
                   onClick={(e) => toggleSimilarFavorite(e, prod._id)}
                   className={cn(
                     "absolute top-4 right-4 bg-white border-2 border-black text-black w-10 h-10 flex items-center justify-center hover:-translate-y-1 hover:shadow-[4px_4px_0_0_black] transition-all z-10",
